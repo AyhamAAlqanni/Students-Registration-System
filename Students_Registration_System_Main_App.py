@@ -23,7 +23,7 @@ def file_read(file_name):
 
         elif file_name == "Files/Courses.txt":
 
-            course_object = Course(int(line[0]), line[1], int(line[2]))
+            course_object = Course(line[0], line[1], int(line[2]))
 
             dictionary_holder[course_object.get_number()] = course_object
 
@@ -92,12 +92,42 @@ def add_student(students_dictionary):
         print("RESULT: Invalid Input!\nEntered a Non Integer Value.")
 
         return None
+    
+
+# A function that adds a course.
+def add_course(courses_dictionary):
+
+    try:
+
+        course_number = input("Enter Course Number: ")
+
+        if course_number.upper() in courses_dictionary:
+
+            print("There is Already a Course With That Number!")
+            print("RESULT: Course Has Not Been Added.")
+        
+        else:
+
+            course_name = input("Enter Course Name: ")
+            course_credits = int(input("Enter Course Credits: "))
+
+            course_object = Course(course_number.upper(), course_name, course_credits)
+
+            return course_object
+
+    except ValueError:
+
+        print("RESULT: Invalid Input!\nEntered a Non Integer Value.")
+
+        return None
 
 
 # Main Function
 def main():
 
     students_dictionary = file_read("Files/Students.txt")
+
+    courses_dictionary = file_read("Files/Courses.txt")
 
     user_input = menu_display()
 
@@ -116,6 +146,20 @@ def main():
                 students_dictionary[new_student.get_id()] = new_student
 
                 print("RESULT: Student Has Been Added.")
+
+            print("************************************************************************")
+
+        elif user_input == 2:
+
+            print("OPTION 2: Add Course")
+
+            new_course = add_course(courses_dictionary)
+
+            if new_course != None:
+
+                courses_dictionary[new_course.get_number()] = new_course
+
+                print("RESULT: Course Has Been Added.")
 
             print("************************************************************************")
 
