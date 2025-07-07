@@ -1,12 +1,12 @@
 
 class Student:
 
-    def __init__(self, id, name, mobile):
+    def __init__(self, id, name, mobile, gpa):
 
         self.__id = id
         self.__name = name
         self.__mobile = mobile
-        self.__gpa = 0.0
+        self.__gpa = gpa
 
     def set_id(self, id):
 
@@ -31,3 +31,11 @@ class Student:
     def get_mobile(self):
 
         return self.__mobile
+    
+    def set_gpa(self, gpa):
+
+        self.__gpa = gpa
+
+    def get_gpa(self):
+
+        return self.__gpa
