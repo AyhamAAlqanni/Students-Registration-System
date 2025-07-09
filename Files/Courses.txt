@@ -1,1 +1,2 @@
 CMPS151,Programming Concepts,3
+CMPS251,Object Orinted,4

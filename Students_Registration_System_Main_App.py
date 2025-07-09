@@ -34,7 +34,31 @@ def file_read(file_name):
 
             dictionary_holder[grade_object.get_student_id()] = grade_object
 
+    read_from_file.close()
+
     return dictionary_holder
+
+
+# A function that writes to a file.
+def file_write(file_name, object_dictionary):
+
+    write_to_file = open(file_name, "w")
+
+    for key, value in object_dictionary.items():
+
+        if file_name == "Files/Students.txt":
+
+            write_to_file.write(str(key) + "," + value.get_name() + "," + value.get_mobile() + "," + str(value.get_gpa()) + "\n")
+
+        elif file_name == "Files/Courses.txt":
+
+            write_to_file.write(key + "," + value.get_name() + "," + str(value.get_credits()) + "\n")
+
+        elif file_name == "Files/Grades.txt":
+
+            write_to_file.write(str(key) + "," + value.get_course_number() + "," + value.get_grade_letter() + "\n")
+
+    write_to_file.close()
 
 
 # A function that displays the menu.
@@ -89,6 +113,8 @@ def add_student(students_dictionary):
 
             student_name = input("Enter Student Name: ")
             student_mobile = input("Enter Student Mobile: ")
+
+            student_mobile = "(" + student_mobile[:3] + ")" + student_mobile[3:6] + "-" + student_mobile[6:]
 
             student_object = Student(student_id, student_name.capitalize(), student_mobile, 0.0)
 
@@ -207,6 +233,8 @@ def main():
 
                 students_dictionary[new_student.get_id()] = new_student
 
+                file_write("Files/Students.txt", students_dictionary)
+
                 print("RESULT: Student Has Been Added.")
 
             print("************************************************************************")
@@ -221,6 +249,8 @@ def main():
 
                 courses_dictionary[new_course.get_number()] = new_course
 
+                file_write("Files/Courses.txt", courses_dictionary)
+
                 print("RESULT: Course Has Been Added.")
 
             print("************************************************************************")
@@ -234,6 +264,8 @@ def main():
             if new_grade != None:
 
                 grades_dictionary[new_grade.get_student_id()] = new_grade
+
+                file_write("Files/Grades.txt", grades_dictionary)
 
                 print("RESULT: Grade Has Been Added.")
 
