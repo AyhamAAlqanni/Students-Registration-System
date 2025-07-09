@@ -2,6 +2,7 @@
 # Importing Classes.
 from Student_Class import Student
 from Course_Class import Course
+from Grade_Class import Grade
 
 
 # A function that reads a file.
@@ -26,6 +27,12 @@ def file_read(file_name):
             course_object = Course(line[0], line[1], int(line[2]))
 
             dictionary_holder[course_object.get_number()] = course_object
+
+        elif file_name == "Files/Grades.txt":
+
+            grade_object = Grade(int(line[0]), line[1], line[2])
+
+            dictionary_holder[grade_object.get_student_id()] = grade_object
 
     return dictionary_holder
 
@@ -120,6 +127,59 @@ def add_course(courses_dictionary):
         print("RESULT: Invalid Input!\nEntered a Non Integer Value.")
 
         return None
+    
+
+# A function that adds a grade.
+def add_grade(students_dictionary, courses_dictionary):
+
+    try:
+
+        student_id = int(input("Enter Student ID: "))
+
+        if student_id in students_dictionary:
+
+            print(f"Student Name: {students_dictionary[student_id].get_name()}")
+
+            course_number = input("Enter Course Number: ")
+
+            if course_number.upper() in courses_dictionary:
+
+                print(f"Course Name: {courses_dictionary[course_number.upper()].get_name()}")
+
+                grade_letter = input("Enter Grade Letter: ")
+
+                grade_check_flag = False
+
+                while grade_check_flag != True:
+
+                    if grade_letter.upper() == "A" or grade_letter.upper() == "B" or grade_letter.upper() == "C" or grade_letter.upper() == "D" or grade_letter.upper() == "F":
+
+                        grade_check_flag = True
+
+                    else:
+
+                        print("RESULT: Invalid Input!")
+                        grade_letter = input("Enter Grade Letter: ")
+
+                grade_object = Grade(student_id, course_number, grade_letter.upper())
+
+                return grade_object
+
+            else:
+
+                print("There is No Course With This Number!")
+                print("RESULT: Grade Has Not Been Added.")
+
+        else:
+
+            print("There is No Student With This ID!")
+            print("RESULT: Grade Has Not Been Added.")
+
+    except ValueError:
+
+        print("RESULT: Invalid Input!\nEntered a Non Integer Value.")
+
+        return None
 
 
 # Main Function
@@ -128,6 +188,8 @@ def main():
     students_dictionary = file_read("Files/Students.txt")
 
     courses_dictionary = file_read("Files/Courses.txt")
+
+    grades_dictionary = file_read("Files/Grades.txt")
 
     user_input = menu_display()
 
@@ -160,6 +222,20 @@ def main():
                 courses_dictionary[new_course.get_number()] = new_course
 
                 print("RESULT: Course Has Been Added.")
+
+            print("************************************************************************")
+
+        elif user_input == 3:
+
+            print("OPTION 3: Add Grade")
+
+            new_grade = add_grade(students_dictionary, courses_dictionary)
+
+            if new_grade != None:
+
+                grades_dictionary[new_grade.get_student_id()] = new_grade
+
+                print("RESULT: Grade Has Been Added.")
 
             print("************************************************************************")
 
