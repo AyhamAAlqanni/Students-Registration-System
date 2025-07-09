@@ -12,6 +12,8 @@ def file_read(file_name):
 
     dictionary_holder = dict()
 
+    grades_list = []
+
     for line in read_from_file:
 
         line = line.rstrip("\n").split(",")
@@ -32,31 +34,41 @@ def file_read(file_name):
 
             grade_object = Grade(int(line[0]), line[1], line[2])
 
-            dictionary_holder[grade_object.get_student_id()] = grade_object
+            grades_list.append(grade_object)
 
     read_from_file.close()
 
-    return dictionary_holder
+    if file_name == "Files/Grades.txt":
+
+        return grades_list
+    
+    else:
+
+        return dictionary_holder
 
 
 # A function that writes to a file.
-def file_write(file_name, object_dictionary):
+def file_write(file_name, objects):
 
     write_to_file = open(file_name, "w")
 
-    for key, value in object_dictionary.items():
+    if file_name == "Files/Grades.txt":
 
-        if file_name == "Files/Students.txt":
+        for grade in objects:
 
-            write_to_file.write(str(key) + "," + value.get_name() + "," + value.get_mobile() + "," + str(value.get_gpa()) + "\n")
+            write_to_file.write(str(grade.get_student_id()) + "," + grade.get_course_number().upper() + "," + grade.get_grade_letter() + "\n")
+    
+    else:
 
-        elif file_name == "Files/Courses.txt":
+        for key, value in objects.items():
 
-            write_to_file.write(key + "," + value.get_name() + "," + str(value.get_credits()) + "\n")
+            if file_name == "Files/Students.txt":
 
-        elif file_name == "Files/Grades.txt":
+                write_to_file.write(str(key) + "," + value.get_name() + "," + value.get_mobile() + "," + str(value.get_gpa()) + "\n")
 
-            write_to_file.write(str(key) + "," + value.get_course_number() + "," + value.get_grade_letter() + "\n")
+            elif file_name == "Files/Courses.txt":
+
+                write_to_file.write(key + "," + value.get_name() + "," + str(value.get_credits()) + "\n")
 
     write_to_file.close()
 
@@ -206,6 +218,29 @@ def add_grade(students_dictionary, courses_dictionary):
         print("RESULT: Invalid Input!\nEntered a Non Integer Value.")
 
         return None
+    
+
+# A function that updates a student's GPA.
+def gpa_update(students_dictionary, courses_dictionary, grades_list):
+
+    grades_points = {"A" : 4, "B" : 3, "C" : 2, "D" : 1, "F" : 0}
+
+    for student_id in students_dictionary:
+
+        points_credits_sum = 0
+        credits_sum = 0
+
+        for course_info in grades_list:
+
+            if course_info.get_student_id() == student_id:
+
+                points_credits_sum += (grades_points[course_info.get_grade_letter()] * courses_dictionary[course_info.get_course_number().upper()].get_credits())
+
+                credits_sum += courses_dictionary[course_info.get_course_number().upper()].get_credits()
+
+        gpa_total = points_credits_sum / credits_sum
+
+        students_dictionary[student_id].set_gpa(format(gpa_total, "0.3f"))
 
 
 # Main Function
@@ -215,7 +250,7 @@ def main():
 
     courses_dictionary = file_read("Files/Courses.txt")
 
-    grades_dictionary = file_read("Files/Grades.txt")
+    grades_list = file_read("Files/Grades.txt")
 
     user_input = menu_display()
 
@@ -263,11 +298,15 @@ def main():
 
             if new_grade != None:
 
-                grades_dictionary[new_grade.get_student_id()] = new_grade
+                grades_list.append(new_grade)
 
-                file_write("Files/Grades.txt", grades_dictionary)
+                file_write("Files/Grades.txt", grades_list)
 
                 print("RESULT: Grade Has Been Added.")
+
+                gpa_update(students_dictionary, courses_dictionary, grades_list)
+
+                file_write("Files/Students.txt", students_dictionary)
 
             print("************************************************************************")
 
