@@ -240,7 +240,38 @@ def gpa_update(students_dictionary, courses_dictionary, grades_list):
 
         gpa_total = points_credits_sum / credits_sum
 
-        students_dictionary[student_id].set_gpa(format(gpa_total, "0.3f"))
+        students_dictionary[student_id].set_gpa(format(gpa_total, "0.2f"))
+
+
+# A function that displays student’s transcript.
+def transcript_display(students_dictionary, courses_dictionary, grades_list):
+
+    try:
+
+        student_id = int(input("Enter Student ID: "))
+
+        if student_id in students_dictionary:
+
+            print(f"\nStudent Name: {students_dictionary[student_id].get_name()}")
+            print(f"GPA: {students_dictionary[student_id].get_gpa()}")
+
+            print("\nCourses History:")
+
+            for grades in grades_list:
+
+                if grades.get_student_id() == student_id:
+
+                    print(f"Course Name: {grades.get_course_number()} {courses_dictionary[grades.get_course_number().upper()].get_name():<28}" 
+                          + f"Grade: {grades.get_grade_letter()}")
+
+        else:
+
+            print("There is No Student With That ID!")
+            print("RESULT: Transcript Has Not Been Displayed.")
+
+    except ValueError:
+
+        print("RESULT: Invalid Input!\nEntered a Non Integer Value.")
 
 
 # Main Function
@@ -310,7 +341,17 @@ def main():
 
             print("************************************************************************")
 
+        elif user_input == 4:
+
+            print("OPTION 4: Student's Transcript")
+
+            transcript_display(students_dictionary, courses_dictionary, grades_list)
+
+            print("************************************************************************")
+
         user_input = menu_display()
+
+    print("OPTION 0: Exited Program.")
 
 
 # Calling Main Function
