@@ -16,6 +16,7 @@ def file_read(file_name):
 
     for line in read_from_file:
 
+        # Havinh file's line as a list.
         line = line.rstrip("\n").split(",")
 
         if file_name == "Files/Students.txt": 
@@ -38,6 +39,7 @@ def file_read(file_name):
 
     read_from_file.close()
 
+    # Returning a dictionary or a list based on file name parameter.
     if file_name == "Files/Grades.txt":
 
         return grades_list
@@ -89,6 +91,7 @@ def menu_display():
 
         user_input = int(input("Enter Option: "))
 
+        # Redisplaying the menu if user input is not in the range.
         while user_input < 0 or user_input > 6:
 
             print("RESULT: Wrong Input!\nEnter a Valid Option.")
@@ -120,6 +123,7 @@ def add_student(students_dictionary):
 
         student_id = int(input("Enter Student ID: "))
 
+        # Checking if student ID is already in the dictionary.
         if student_id in students_dictionary:
 
             print("There is Already a Student With That ID!")
@@ -130,6 +134,7 @@ def add_student(students_dictionary):
             student_name = input("Enter Student Name: ")
             student_mobile = input("Enter Student Mobile: ")
 
+            # Editing the mobile number display.
             student_mobile = "(" + student_mobile[:3] + ")" + student_mobile[3:6] + "-" + student_mobile[6:]
 
             student_object = Student(student_id, student_name.capitalize(), student_mobile, 0.0)
@@ -150,6 +155,7 @@ def add_course(courses_dictionary):
 
         course_number = input("Enter Course Number: ")
 
+        # Checking if course number is already in the dictionary.
         if course_number.upper() in courses_dictionary:
 
             print("There is Already a Course With That Number!")
@@ -178,6 +184,7 @@ def add_grade(students_dictionary, courses_dictionary):
 
         student_id = int(input("Enter Student ID: "))
 
+        # Checking if student ID is already in the dictionary.
         if student_id in students_dictionary:
 
             print(f"Student Name: {students_dictionary[student_id].get_name()}")
@@ -192,6 +199,7 @@ def add_grade(students_dictionary, courses_dictionary):
 
                 grade_check_flag = False
 
+                # Making sure that "A", "B", "C", "D" or "F" is entered.
                 while grade_check_flag != True:
 
                     if grade_letter.upper() == "A" or grade_letter.upper() == "B" or grade_letter.upper() == "C" or grade_letter.upper() == "D" or grade_letter.upper() == "F":
@@ -256,6 +264,7 @@ def transcript_display(students_dictionary, courses_dictionary, grades_list):
 
         student_id = int(input("Enter Student ID: "))
 
+        # Checking if student ID is already in the dictionary.
         if student_id in students_dictionary:
 
             print(f"\nStudent Name: {students_dictionary[student_id].get_name()}")
@@ -263,6 +272,7 @@ def transcript_display(students_dictionary, courses_dictionary, grades_list):
 
             print("\nCourses History:")
 
+            # Displaying courses history.
             for grades in grades_list:
 
                 if grades.get_student_id() == student_id:
@@ -287,6 +297,7 @@ def modify_student(students_dictionary):
 
         student_id = int(input("Enter Student ID: "))
 
+        # Checking if student ID is already in the dictionary.
         if student_id in students_dictionary:
 
             print(f"\nStudent Name: {students_dictionary[student_id].get_name()}")
@@ -311,6 +322,7 @@ def modify_student(students_dictionary):
 
                 mobile_modify = input("Enter Modified Mobile Number: ")
 
+                # Editing the mobile number display.
                 mobile_modify = "(" + mobile_modify[:3] + ")" + mobile_modify[3:6] + "-" + mobile_modify[6:]
 
                 students_dictionary[student_id].set_mobile(mobile_modify)
@@ -346,6 +358,7 @@ def delete_student(students_dictionary, grades_list):
 
         student_id = int(input("Enter Student ID: "))
 
+        # Checking if student ID is already in the dictionary.
         if student_id in students_dictionary:
 
             print(f"\nStudent Name: {students_dictionary[student_id].get_name()}")

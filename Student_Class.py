@@ -1,12 +1,16 @@
 
+# A student class with id (int), name (string), mobile (string) and gpa (float) attributes.
 class Student:
 
+    # Constuctor Method.
     def __init__(self, id, name, mobile, gpa):
 
         self.__id = id
         self.__name = name
         self.__mobile = mobile
         self.__gpa = gpa
+
+    # Adding getters and stters methods for each attribute.
 
     def set_id(self, id):
 
