@@ -81,13 +81,14 @@ def menu_display():
     print("\t(2) Add a New Course.")
     print("\t(3) Add a New Grade.")
     print("\t(4) Print a Student's Transcript.")
+    print("\t(5) Modify Existing Student.")
     print("\t(0) Exit Program.")
 
     try:
 
         user_input = int(input("Enter Option: "))
 
-        while user_input < 0 or user_input > 4:
+        while user_input < 0 or user_input > 5:
 
             print("RESULT: Wrong Input!\nEnter a Valid Option.")
 
@@ -96,6 +97,7 @@ def menu_display():
             print("\t(2) Add a New Course.")
             print("\t(3) Add a New Grade.")
             print("\t(4) Print a Student's Transcript.")
+            print("\t(5) Modify Existing Student.")
             print("\t(0) Exit Program.")
 
             user_input = int(input("Enter Option: "))
@@ -274,6 +276,65 @@ def transcript_display(students_dictionary, courses_dictionary, grades_list):
         print("RESULT: Invalid Input!\nEntered a Non Integer Value.")
 
 
+# A function that modifies an existing student information.
+def modify_student(students_dictionary):
+
+    try:
+
+        student_id = int(input("Enter Student ID: "))
+
+        if student_id in students_dictionary:
+
+            print(f"\nStudent Name: {students_dictionary[student_id].get_name()}")
+
+            print("Select One of The Following to Modify:")
+            print("\t(1) Modify Name.")
+            print("\t(2) Modify Mobile Number.")
+
+            user_selection = int(input("Enter Selection Option: "))
+
+            if user_selection == 1:
+
+                name_modify = input("Enter Modified Name: ")
+
+                students_dictionary[student_id].set_name(name_modify)
+
+                print("Name Has Been Modified.")
+
+                return True
+
+            elif user_selection == 2:
+
+                mobile_modify = input("Enter Modified Mobile Number: ")
+
+                mobile_modify = "(" + mobile_modify[:3] + ")" + mobile_modify[3:6] + "-" + mobile_modify[6:]
+
+                students_dictionary[student_id].set_mobile(mobile_modify)
+
+                print("Mobile Number Has Been Modified.")
+
+                return True
+
+            else:
+
+                print("Invalid Input!\nEntered a Number Not in The List.")
+
+                return False
+
+        else:
+
+            print("There is No Student With That ID!")
+            print("RESULT: Student Has Not Been Modified.")
+
+            return False
+
+    except ValueError:
+
+        print("RESULT: Invalid Input!\nEntered a Non Integer Value.")
+
+        return False
+
+
 # Main Function
 def main():
 
@@ -346,6 +407,20 @@ def main():
             print("OPTION 4: Student's Transcript")
 
             transcript_display(students_dictionary, courses_dictionary, grades_list)
+
+            print("************************************************************************")
+
+        elif user_input == 5:
+
+            print("OPTION 5: Modify Student's Information")
+
+            result_flag = modify_student(students_dictionary)
+
+            if result_flag == True:
+
+                file_write("Files/Students.txt", students_dictionary)
+
+                print("RESULT: Student Has Been Modified.")
 
             print("************************************************************************")
 
