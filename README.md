@@ -29,12 +29,7 @@ The system is modular, structured using object-oriented programming (OOP), and s
 # 💡 GPA Calculation
 - Grades are converted to points:
 
-Grade	Points
-A	    4
-B	    3
-C	    2
-D	    1
-F	    0
+grades_points = {"A" : 4, "B" : 3, "C" : 2, "D" : 1, "F" : 0}
 
 - GPA is calculated as: GPA = (sum of (grade points × course credits)) / (sum of credits)
 
