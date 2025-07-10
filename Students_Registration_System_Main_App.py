@@ -82,13 +82,14 @@ def menu_display():
     print("\t(3) Add a New Grade.")
     print("\t(4) Print a Student's Transcript.")
     print("\t(5) Modify Existing Student.")
+    print("\t(6) Delete Existing Student.")
     print("\t(0) Exit Program.")
 
     try:
 
         user_input = int(input("Enter Option: "))
 
-        while user_input < 0 or user_input > 5:
+        while user_input < 0 or user_input > 6:
 
             print("RESULT: Wrong Input!\nEnter a Valid Option.")
 
@@ -98,6 +99,7 @@ def menu_display():
             print("\t(3) Add a New Grade.")
             print("\t(4) Print a Student's Transcript.")
             print("\t(5) Modify Existing Student.")
+            print("\t(6) Delete Existing Student.")
             print("\t(0) Exit Program.")
 
             user_input = int(input("Enter Option: "))
@@ -240,9 +242,11 @@ def gpa_update(students_dictionary, courses_dictionary, grades_list):
 
                 credits_sum += courses_dictionary[course_info.get_course_number().upper()].get_credits()
 
-        gpa_total = points_credits_sum / credits_sum
+        if credits_sum != 0:
 
-        students_dictionary[student_id].set_gpa(format(gpa_total, "0.2f"))
+            gpa_total = points_credits_sum / credits_sum
+
+            students_dictionary[student_id].set_gpa(format(gpa_total, "0.2f"))
 
 
 # A function that displays student’s transcript.
@@ -263,7 +267,7 @@ def transcript_display(students_dictionary, courses_dictionary, grades_list):
 
                 if grades.get_student_id() == student_id:
 
-                    print(f"Course Name: {grades.get_course_number()} {courses_dictionary[grades.get_course_number().upper()].get_name():<28}" 
+                    print(f"Course Name: {grades.get_course_number().upper()} {courses_dictionary[grades.get_course_number().upper()].get_name():<28}" 
                           + f"Grade: {grades.get_grade_letter()}")
 
         else:
@@ -297,7 +301,7 @@ def modify_student(students_dictionary):
 
                 name_modify = input("Enter Modified Name: ")
 
-                students_dictionary[student_id].set_name(name_modify)
+                students_dictionary[student_id].set_name(name_modify.capitalize())
 
                 print("Name Has Been Modified.")
 
@@ -325,6 +329,51 @@ def modify_student(students_dictionary):
 
             print("There is No Student With That ID!")
             print("RESULT: Student Has Not Been Modified.")
+
+            return False
+
+    except ValueError:
+
+        print("RESULT: Invalid Input!\nEntered a Non Integer Value.")
+
+        return False
+    
+
+# A function that deletes a student records.
+def delete_student(students_dictionary, grades_list):
+
+    try:
+
+        student_id = int(input("Enter Student ID: "))
+
+        if student_id in students_dictionary:
+
+            print(f"\nStudent Name: {students_dictionary[student_id].get_name()}")
+
+            delete_confirmation = input("Delte Student? (Y) or (N): ")
+
+            if delete_confirmation.upper() == "Y":
+
+                del students_dictionary[student_id]
+
+                for grade in range(len(grades_list)):
+
+                    if grades_list[grade].get_student_id() == student_id:
+
+                        del grades_list[grade]
+
+                return True
+
+            else:
+
+                print("RESULT: Student Has Not Been Deleted.")
+
+                return False
+        
+        else:
+
+            print("There is No Student With That ID!")
+            print("RESULT: Student Has Not Been Deleted.")
 
             return False
 
@@ -421,6 +470,22 @@ def main():
                 file_write("Files/Students.txt", students_dictionary)
 
                 print("RESULT: Student Has Been Modified.")
+
+            print("************************************************************************")
+
+        elif user_input == 6:
+
+            print("OPTION 6: Delete Student")
+
+            result_flag = delete_student(students_dictionary, grades_list)
+
+            if result_flag == True:
+
+                file_write("Files/Students.txt", students_dictionary)
+
+                file_write("Files/Grades.txt", grades_list)
+
+                print("RESULT: Student Has Been Deleted.")
 
             print("************************************************************************")
 
