@@ -1,11 +1,15 @@
 
+# A course class with number (string), name (string) and credits (int) attributes.
 class Course:
 
+    # Constuctor Method.
     def __init__(self, number, name, credits):
 
         self.__number = number
         self.__name = name
         self.__credits = credits
+
+    # Adding getters and stters methods for each attribute.
 
     def set_number(self, course_number):
 
